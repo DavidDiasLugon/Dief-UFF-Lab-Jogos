@@ -27,7 +27,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load(
             "Dief_frontal.png"
         ).convert_alpha()  # ../sprites/test/player.png
-        self.image = pygame.transform.scale(self.image, (54, 72))
+        self.image = pygame.transform.scale(self.image, (54, 64))
         self.rect = self.image.get_rect(topleft=pos)
         self.hitbox = self.rect.inflate(0, -20)
         self.direction = pygame.math.Vector2()
