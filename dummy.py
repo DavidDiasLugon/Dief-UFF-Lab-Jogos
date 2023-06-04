@@ -10,22 +10,22 @@ display = pygame.display.set_mode((800, 640))
 clock = pygame.time.Clock()
 
 player_walk_images = [
-    pygame.image.load("../Assets/Main Character/lateral_1.png"),
-    pygame.image.load("../Assets/Main Character/lateral_2.png"),
-    pygame.image.load("../Assets/Main Character/lateral_3.png"),
+    pygame.image.load("Assets/Main Character/lateral_1.png"),
+    pygame.image.load("Assets/Main Character/lateral_2.png"),
+    pygame.image.load("Assets/Main Character/lateral_3.png"),
 ]
-frontal = pygame.image.load("../Assets/Main Character/Dief_frontal.png")
+frontal = pygame.image.load("Assets/Main Character/Dief_frontal.png")
 
 subindo = [
-    pygame.image.load("../Assets/Main Character/subindo_1.png"),
-    pygame.image.load("../Assets/Main Character/subindo_2.png"),
-    pygame.image.load("../Assets/Main Character/subindo_3.png"),
+    pygame.image.load("Assets/Main Character/subindo_1.png"),
+    pygame.image.load("Assets/Main Character/subindo_2.png"),
+    pygame.image.load("Assets/Main Character/subindo_3.png"),
 ]
 
 descendo = [
-    pygame.image.load("../Assets/Main Character/descendo_1.png"),
-    pygame.image.load("../Assets/Main Character/Dief_frontal.png"),
-    pygame.image.load("../Assets/Main Character/descendo_2.png"),
+    pygame.image.load("Assets/Main Character/descendo_1.png"),
+    pygame.image.load("Assets/Main Character/Dief_frontal.png"),
+    pygame.image.load("Assets/Main Character/descendo_2.png"),
 ]
 
 
@@ -113,14 +113,14 @@ class KnightEnemy:
         self.x = x
         self.y = y  # CONTINUAR DAQUI
         self.animation_images_right = [
-            pygame.image.load("../Assets/Enemies/knighRight1.png"),
-            pygame.image.load("../Assets/Enemies/knightRight2.png"),
-            pygame.image.load("../Assets/Enemies/knightRight3.png"),
-            pygame.image.load("../Assets/Enemies/knightRight4.png"),
-            pygame.image.load("../Assets/Enemies/knightRight5.png"),
-            pygame.image.load("../Assets/Enemies/knightRight6.png"),
-            pygame.image.load("../Assets/Enemies/knightRight7.png"),
-            pygame.image.load("../Assets/Enemies/knightRight8.png"),
+            pygame.image.load("Assets/Enemies/knighRight1.png"),
+            pygame.image.load("Assets/Enemies/knightRight2.png"),
+            pygame.image.load("Assets/Enemies/knightRight3.png"),
+            pygame.image.load("Assets/Enemies/knightRight4.png"),
+            pygame.image.load("Assets/Enemies/knightRight5.png"),
+            pygame.image.load("Assets/Enemies/knightRight6.png"),
+            pygame.image.load("Assets/Enemies/knightRight7.png"),
+            pygame.image.load("Assets/Enemies/knightRight8.png"),
         ]
         self.animation_count = 0
         self.reset_offset = 0
