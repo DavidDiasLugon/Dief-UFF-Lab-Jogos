@@ -25,7 +25,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, pos, groups, obstacles_sprites):
         super().__init__(groups)  # init so que da herança "pygame.sprite.Sprite"
         self.image = pygame.image.load(
-            "Dief_frontal.png"
+            "Assets/Main Character/Dief_frontal.png"
         ).convert_alpha()  # ../sprites/test/player.png
         self.image = pygame.transform.scale(self.image, (54, 64))
         self.rect = self.image.get_rect(topleft=pos)
@@ -82,5 +82,3 @@ class Player(pygame.sprite.Sprite):
         self.input()
         self.rect.center += self.direction * self.speed
         self.move(self.speed)
-
-        
