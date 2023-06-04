@@ -59,7 +59,7 @@ class YSortCameraGroup(pygame.sprite.Group):
         self.offset = pygame.math.Vector2()
 
         # Criando o chão
-        self.floor_surf = pygame.image.load('../Assets/Enviroment/tile_fixed.png').convert()
+        self.floor_surf = pygame.image.load('Assets/Enviroment/tile_fixed.png').convert()
         self.floor_rect = self.floor_surf.get_rect(topleft = (0,0))
 
     def custom_draw(self, player):
