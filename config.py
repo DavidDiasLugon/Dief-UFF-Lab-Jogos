@@ -1,3 +1,6 @@
+from os import walk
+import pygame
+
 WIDTH = 800
 HEIGHT = 640
 FPS = 60
@@ -38,3 +41,12 @@ WORLD_MAP = [
     ["x","c","","","","","x","k","","","","","","","c","","","","","","","","","","","","","","","","","","","","","","","","","","","x"],
     ["x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x"],
 ]
+
+def import_folder(path):
+    surface_list = []
+    for _,__,img_files in walk(path):
+        for image in img_files:
+            full_path = path + '/' + image
+            image_surface = pygame.image.load(full_path).convert_alpha()
+            surface_list.append(image_surface)
+    return surface_list
