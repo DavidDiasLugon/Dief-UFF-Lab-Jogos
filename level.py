@@ -5,7 +5,7 @@ from dief import Player
 from cavaleiro import Cavaleiro
 from chave import Chave
 from bau import Bau
-#from pygameZoom import PygameZoom
+from os import kill
 
 
 class Level:
@@ -15,6 +15,8 @@ class Level:
         # grupos de sprite
         self.visible_sprites = YSortCameraGroup()  # pygame.sprite.Group()
         self.obstacles_sprites = pygame.sprite.Group()
+        self.chave_sprite = pygame.sprite.Group()
+        self.chave = None
 
         # sprite setup
         self.create_map()
@@ -35,13 +37,18 @@ class Level:
                     Y = Y * 3
                     Tile3((x, Y), [self.visible_sprites, self.obstacles_sprites])'''
                 if col == "p":
-                    self.player = Player((x, Y), [self.visible_sprites],self.obstacles_sprites)
+                    self.player = Player((x, Y), [self.visible_sprites],self.obstacles_sprites,self.chave_sprite,self.destroy_key)
                 if col == "c":
                     Cavaleiro((x,Y),[self.visible_sprites, self.obstacles_sprites])
                 if col == "k":
-                    Chave((x,Y),[self.visible_sprites,self.obstacles_sprites])
+                    self.chave = Chave((x,Y),[self.visible_sprites,self.chave_sprite])
                 if col == "b":
                     Bau((x,Y),[self.visible_sprites,self.obstacles_sprites])
+
+    def destroy_key(self):
+        if self.chave:
+            self.chave.kill()
+        self.chave = None
 
     def run(self):
         # Atualiza e desenha o jogo
