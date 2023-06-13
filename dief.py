@@ -1,5 +1,6 @@
 import pygame
 from config import *
+from os import kill
 
 """player_walk_images = [
     pygame.image.load("lateral_1.png"),
@@ -22,7 +23,7 @@ descendo = [
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, groups, obstacles_sprites):
+    def __init__(self, pos, groups, obstacles_sprites, chave_sprite, destroy_key):
         super().__init__(groups)  # init so que da herança "pygame.sprite.Sprite"
         self.image = pygame.image.load(
             "Assets/Main Character/Dief_frontal.png"
@@ -38,9 +39,11 @@ class Player(pygame.sprite.Sprite):
         self.orientacao = 0
 
         self.direction = pygame.math.Vector2()
-        self.speed = 8
+        self.speed = 5
 
         self.obstacle_sprites = obstacles_sprites
+        self.chave_sprite = chave_sprite
+        self.destroy_key = destroy_key
 
     def Import_player_assets(self):
         character_path = "Assets/Main Character/"
@@ -98,6 +101,9 @@ class Player(pygame.sprite.Sprite):
     
     def collision(self, direction):
         if direction == 'horizontal':
+            for sprite in self.chave_sprite:
+                if sprite.hitbox.colliderect(self.hitbox):
+                    self.destroy_key()
             for sprite in self.obstacle_sprites:
                 if sprite.hitbox.colliderect(self.hitbox):
                     if self.direction.x > 0: #movendo pra direita
