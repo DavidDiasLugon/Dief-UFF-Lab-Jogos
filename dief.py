@@ -23,7 +23,7 @@ descendo = [
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, groups, obstacles_sprites, chave_sprite, destroy_key):
+    def __init__(self, pos, groups, obstacles_sprites, chave_sprite, destroy_key, bau_sprite, destroy_bau):
         super().__init__(groups)  # init so que da herança "pygame.sprite.Sprite"
         self.image = pygame.image.load(
             "Assets/Main Character/Dief_frontal.png"
@@ -42,8 +42,13 @@ class Player(pygame.sprite.Sprite):
         self.speed = 5
 
         self.obstacle_sprites = obstacles_sprites
+
         self.chave_sprite = chave_sprite
         self.destroy_key = destroy_key
+        self.tem_chave = False
+
+        self.bau_sprite = bau_sprite
+        self.destroy_bau = destroy_bau
 
     def Import_player_assets(self):
         character_path = "Assets/Main Character/"
@@ -104,6 +109,19 @@ class Player(pygame.sprite.Sprite):
             for sprite in self.chave_sprite:
                 if sprite.hitbox.colliderect(self.hitbox):
                     self.destroy_key()
+                    self.tem_chave = True
+
+            for sprite in self.bau_sprite:
+                if sprite.hitbox.colliderect(self.hitbox):
+                    if self.tem_chave:
+                        self.destroy_bau()
+                        self.tem_chave = False
+                    else:
+                        if self.direction.x > 0: #movendo pra direita
+                            self.hitbox.right = sprite.hitbox.left
+                        if self.direction.x < 0: #movendo pra esquerda
+                            self.hitbox.left = sprite.hitbox.right
+
             for sprite in self.obstacle_sprites:
                 if sprite.hitbox.colliderect(self.hitbox):
                     if self.direction.x > 0: #movendo pra direita
@@ -111,6 +129,22 @@ class Player(pygame.sprite.Sprite):
                     if self.direction.x < 0: #movendo pra esquerda
                         self.hitbox.left = sprite.hitbox.right
         if direction == 'vertical':
+            for sprite in self.chave_sprite:
+                if sprite.hitbox.colliderect(self.hitbox):
+                    self.destroy_key()
+                    self.tem_chave = True
+
+            for sprite in self.bau_sprite:
+                if sprite.hitbox.colliderect(self.hitbox):
+                    if self.tem_chave:
+                        self.destroy_bau()
+                        self.tem_chave = False
+                    else:
+                        if self.direction.y > 0: #movendo pra baixo
+                            self.hitbox.bottom = sprite.hitbox.top
+                        if self.direction.y < 0: #movendo pra cima
+                            self.hitbox.top = sprite.hitbox.bottom
+
             for sprite in self.obstacle_sprites:
                 if sprite.hitbox.colliderect(self.hitbox):
                     if self.direction.y > 0: #movendo pra baixo

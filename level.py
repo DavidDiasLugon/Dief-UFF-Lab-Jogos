@@ -4,7 +4,7 @@ from tile import *
 from dief import Player
 from cavaleiro import Cavaleiro
 from chave import Chave
-from bau import Bau
+from bau import *
 from os import kill
 
 
@@ -17,6 +17,9 @@ class Level:
         self.obstacles_sprites = pygame.sprite.Group()
         self.chave_sprite = pygame.sprite.Group()
         self.chave = None
+        self.bau_sprite = pygame.sprite.Group()
+        self.bau = None
+        self.bau_pos = []
 
         # sprite setup
         self.create_map()
@@ -37,13 +40,19 @@ class Level:
                     Y = Y * 3
                     Tile3((x, Y), [self.visible_sprites, self.obstacles_sprites])'''
                 if col == "p":
-                    self.player = Player((x, Y), [self.visible_sprites],self.obstacles_sprites,self.chave_sprite,self.destroy_key)
+                    self.player = Player((x, Y), [self.visible_sprites],self.obstacles_sprites,self.chave_sprite,self.destroy_key,self.bau_sprite,self.destroy_bau)
                 if col == "c":
                     Cavaleiro((x,Y),[self.visible_sprites, self.obstacles_sprites])
                 if col == "k":
                     self.chave = Chave((x,Y),[self.visible_sprites,self.chave_sprite])
                 if col == "b":
-                    Bau((x,Y),[self.visible_sprites,self.obstacles_sprites])
+                    self.bau = Bau((x,Y),[self.visible_sprites,self.bau_sprite])
+                    self.bau_pos_x = x
+                    self.bau_pos_y = Y
+
+    def destroy_bau(self):
+        self.bau.kill()
+        Bau_aberto((self.bau_pos_x, self.bau_pos_y),[self.visible_sprites,self.bau_sprite])
 
     def destroy_key(self):
         if self.chave:
