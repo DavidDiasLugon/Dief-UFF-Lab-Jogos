@@ -42,7 +42,7 @@ class Level:
                 if col == "p":
                     self.player = Player((x, Y), [self.visible_sprites],self.obstacles_sprites,self.chave_sprite,self.destroy_key,self.bau_sprite,self.destroy_bau)
                 if col == "c":
-                    Cavaleiro((x,Y),[self.visible_sprites, self.obstacles_sprites])
+                    self.cavaleiro = Cavaleiro((x,Y),[self.visible_sprites], self.obstacles_sprites)
                 if col == "k":
                     self.chave = Chave((x,Y),[self.visible_sprites,self.chave_sprite])
                 if col == "b":
@@ -63,6 +63,7 @@ class Level:
         # Atualiza e desenha o jogo
         self.visible_sprites.custom_draw(self.player)  # draw(self.display_surface)
         self.visible_sprites.update()
+        self.visible_sprites.enemy_update(self.player)
 
 
 class YSortCameraGroup(pygame.sprite.Group):
@@ -92,3 +93,8 @@ class YSortCameraGroup(pygame.sprite.Group):
             offset_pos = sprite.rect.topleft - self.offset
             #self.display_surface.blit(pygame.transform.scale(sprite.image,(100,120)), offset_pos)
             self.display_surface.blit(sprite.image, offset_pos)
+
+    def enemy_update(self, player):
+        enemy_sprites = [sprite for sprite in self.sprites() if hasattr(sprite, "sprite_type") and sprite.sprite_type == "enemy"]
+        for enemy in enemy_sprites:
+            enemy.enemy_update(player)
