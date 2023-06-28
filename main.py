@@ -3,17 +3,19 @@ from config import *
 from level import Level
 from dief import *
 from PPlay import *
+import pygame
+from pygame.locals import *
+from pygame import mixer
 from random import randint
 
 
 class Game:
     def __init__(self):
-        # setup geral
+        # Setup geral
         pygame.init()
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption("Dief")
         self.clock = pygame.time.Clock()
-
         self.level = Level()
 
     def run(self):
@@ -27,7 +29,7 @@ class Game:
             self.level.run()
             pygame.display.update()
             self.clock.tick(FPS)
-
+            
 
 if __name__ == "__main__":
     game = Game()

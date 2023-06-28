@@ -21,7 +21,13 @@ class Level:
         self.bau = None
         self.bau_pos = []
 
-        # sprite setup
+        # Toca Música
+        pygame.mixer.init()
+        pygame.mixer.music.load('Soundtrack/Musica_1.mp3')
+        pygame.mixer.music.play(-1) # Loop infinito da música
+        pygame.mixer.music.set_volume(0.25) # Ajusta o volume da música 
+
+        # Sprite Setup
         self.create_map()
 
     def create_map(self):
@@ -64,6 +70,7 @@ class Level:
         self.visible_sprites.custom_draw(self.player)  # draw(self.display_surface)
         self.visible_sprites.update()
         self.visible_sprites.enemy_update(self.player)
+        
 
 
 class YSortCameraGroup(pygame.sprite.Group):
