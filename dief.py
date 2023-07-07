@@ -2,24 +2,6 @@ import pygame
 from config import *
 from os import kill
 
-"""player_walk_images = [
-    pygame.image.load("lateral_1.png"),
-    pygame.image.load("lateral_2.png"),
-    pygame.image.load("lateral_3.png"),
-]
-frontal = pygame.image.load("Dief_frontal.png")
-
-subindo = [
-    pygame.image.load("subindo_1.png"),
-    pygame.image.load("subindo_2.png"),
-    pygame.image.load("subindo_3.png"),
-]
-
-descendo = [
-    pygame.image.load("descendo_1.png"),
-    pygame.image.load("Dief_frontal.png"),
-    pygame.image.load("descendo_2.png"),
-]"""
 
 
 class Player(pygame.sprite.Sprite):
