@@ -7,7 +7,7 @@ import pygame
 from pygame.locals import *
 from pygame import mixer
 from random import randint
-
+from menu import menu_inic
 
 class Game:
     def __init__(self):
@@ -29,8 +29,9 @@ class Game:
             self.level.run()
             pygame.display.update()
             self.clock.tick(FPS)
-            
 
 if __name__ == "__main__":
-    game = Game()
-    game.run()
+    menu_result = menu_inic()
+    if menu_result:
+        game = Game()
+        game.run()
