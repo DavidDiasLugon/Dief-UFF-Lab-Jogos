@@ -5,7 +5,7 @@ from dief import *
 from PPlay import *
 from random import randint
 from menu import menu_inic
-
+ 
 
 class Game:
     def __init__(self):
@@ -19,6 +19,7 @@ class Game:
 
     def run(self):
         return_to_menu = False
+        cont = 0
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -31,8 +32,11 @@ class Game:
             self.clock.tick(FPS)
 
             if self.level.player.has_opened_chest():
-                return_to_menu = True
-                break
+                cont += 1
+                if cont > 65:
+                    return_to_menu = True
+                    break
+            
             
         if return_to_menu:
             menu_result = menu_inic()

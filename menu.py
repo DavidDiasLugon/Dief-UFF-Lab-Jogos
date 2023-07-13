@@ -8,6 +8,7 @@ def menu_inic():
     janela = Window(800, 640)
     mouse = Window.get_mouse()
     
+
     background = Sprite("Assets/Menu/background.png",1)
 
     # Criação dos sprites dos botões 
@@ -33,7 +34,8 @@ def menu_inic():
                 pygame.quit()
                 sys.exit()
 
-        
+
+
         if (mouse.is_over_object(botão_jogar) and mouse.is_button_pressed(1)):
             return True
         elif (mouse.is_over_object(botão_dificuldade) and mouse.is_button_pressed(1)):
