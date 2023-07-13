@@ -6,6 +6,9 @@ from cavaleiro import Cavaleiro
 from chave import Chave
 from bau import *
 from os import kill
+import math
+from EnemyBullets import *
+from AtackCheck import check_atack
 
 
 class Level:
@@ -20,6 +23,8 @@ class Level:
         self.bau_sprite = pygame.sprite.Group()
         self.bau = None
         self.bau_pos = []
+        self.bullet = 0
+        self.atacou = 0
 
         # sprite setup
         self.create_map()
@@ -42,13 +47,27 @@ class Level:
                 if col == "p":
                     self.player = Player((x, Y), [self.visible_sprites],self.obstacles_sprites,self.chave_sprite,self.destroy_key,self.bau_sprite,self.destroy_bau)
                 if col == "c":
-                    self.cavaleiro = Cavaleiro((x,Y),[self.visible_sprites], self.obstacles_sprites)
+                    self.cavaleiro = Cavaleiro((x,Y),[self.visible_sprites], self.obstacles_sprites, self.tiro_inimigo)
                 if col == "k":
                     self.chave = Chave((x,Y),[self.visible_sprites,self.chave_sprite])
                 if col == "b":
                     self.bau = Bau((x,Y),[self.visible_sprites,self.bau_sprite])
                     self.bau_pos_x = x
                     self.bau_pos_y = Y
+
+    def tiro_inimigo(self, x, y, player_x, player_y):
+        '''if self.bullet != 0:
+            self.atacou = self.bullet.__getattribute__('status')
+            if self.atacou == "attack":
+                #print('atacou')
+                check_atack(1,0)'''
+
+        '''b_list = []
+        b_list.append(EnemyBullets(x, y, player_x, player_y, [self.visible_sprites], self.obstacles_sprites))
+        if len(b_list) > 5:
+            b_list.pop(-1)'''
+        self.bullet = EnemyBullets(x, y, player_x, player_y, [self.visible_sprites], self.obstacles_sprites)
+
 
     def destroy_bau(self):
         self.bau.kill()
