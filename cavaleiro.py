@@ -37,6 +37,8 @@ class Cavaleiro(pygame.sprite.Sprite):
         self.place_holder = 'idle'
         self.x1 = 0
         self.has_collide_player = False
+        self.marcador = 0
+        self.troca_animacao = 1
         #self.image = self.animations[self.status][self.frame_index]
 
     def has_collided_player(self):
@@ -44,7 +46,8 @@ class Cavaleiro(pygame.sprite.Sprite):
 
     def Import_enemy_assets(self):
         character_path = "Assets/Enemies/"
-        self.animations = {'idle':[]}
+        self.animations = {'idle':[],
+                           'AtaqueSprites':[]}
         for animation in self.animations.keys():
             full_path = character_path + animation
             self.animations[animation] = import_folder(full_path)
@@ -106,6 +109,10 @@ class Cavaleiro(pygame.sprite.Sprite):
 
             stat_change = check_atack(0,1)
             if stat_change == '1':
+                if enemy_x > player_x:
+                    self.lado = "esquerda"
+                if enemy_x < player_x:
+                    self.lado = "direita"
                 self.direction = self.get_player_distance_direction(player)[1]
             
             #self.direction = pygame.math.Vector2()
@@ -119,7 +126,7 @@ class Cavaleiro(pygame.sprite.Sprite):
             player_x = player.rect.x
             player_y = player.rect.y
             if self.rect.colliderect(player_x, player_y, 40, 30):
-                self.has_collide_player = True
+                self.marcador = 1
         elif self.status == 'idle':
             escrever = open('switch.txt', 'w')
             escrever.write('0')
@@ -176,18 +183,36 @@ class Cavaleiro(pygame.sprite.Sprite):
                     if self.direction.y < 0:
                         self.hitbox.top = sprite.hitbox.bottom
 
-    def animate(self):
-        animation = self.animations[self.place_holder]
+    def animate(self, player):
+        if self.marcador == 1:
+            animation = self.animations['AtaqueSprites']
+            if self.troca_animacao != 0:
+                self.frame_index = 0
+                self.troca_animacao = 0
+            self.frame_index += self.animation_speed
+            if self.frame_index > len(animation):
+                self.frame_index = 0
+            self.image = animation[int(self.frame_index)]
+            self.image = pygame.transform.scale(self.image, (74,74))
+            enemy_x = self.hitbox.x
+            player_x = player.rect.x
+            if enemy_x > player_x:
+                self.image = pygame.transform.flip(self.image,True,False)
+            self.rect = self.image.get_rect(center = self.hitbox.center)
+            if self.frame_index == 4.950000000000001:
+                self.has_collide_player = True
+        else:
+            animation = self.animations[self.place_holder]
 
-        self.frame_index += self.animation_speed
-        if self.frame_index >= len(animation):
-            self.frame_index = 0
-        
-        self.image = animation[int(self.frame_index)]
-        self.image = pygame.transform.scale(self.image, (64,64))
-        if self.lado == "esquerda":
-            self.image = pygame.transform.flip(self.image,True,False)
-        self.rect = self.image.get_rect(center = self.hitbox.center)
+            self.frame_index += self.animation_speed
+            if self.frame_index >= len(animation):
+                self.frame_index = 0
+            
+            self.image = animation[int(self.frame_index)]
+            self.image = pygame.transform.scale(self.image, (64,64))
+            if self.lado == "esquerda":
+                self.image = pygame.transform.flip(self.image,True,False)
+            self.rect = self.image.get_rect(center = self.hitbox.center)
 
     def update(self):
         self.move(self.speed)
@@ -196,6 +221,6 @@ class Cavaleiro(pygame.sprite.Sprite):
     def enemy_update(self, player):
         self.get_status(player)
         self.actions(player)
-        self.animate()
+        self.animate(player)
 
 
