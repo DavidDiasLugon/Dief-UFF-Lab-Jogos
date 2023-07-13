@@ -2,6 +2,7 @@ import pygame, sys
 from config import *
 from level import Level
 from dief import *
+from cavaleiro import *
 from PPlay import *
 from random import randint
 from menu import menu_inic
@@ -36,6 +37,9 @@ class Game:
                 if cont > 65:
                     return_to_menu = True
                     break
+            if self.level.cavaleiro.has_collided_player():
+                return_to_menu = True
+                break
             
             
         if return_to_menu:
