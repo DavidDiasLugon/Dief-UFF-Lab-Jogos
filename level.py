@@ -6,6 +6,9 @@ from cavaleiro import Cavaleiro
 from chave import Chave
 from bau import *
 from os import kill
+import math
+from EnemyBullets import *
+from AtackCheck import check_atack
 
 
 class Level:
@@ -20,14 +23,10 @@ class Level:
         self.bau_sprite = pygame.sprite.Group()
         self.bau = None
         self.bau_pos = []
+        self.bullet = 0
+        self.atacou = 0
 
-        # Toca Música
-        pygame.mixer.init()
-        pygame.mixer.music.load('Soundtrack/Musica_1.mp3')
-        pygame.mixer.music.play(-1) # Loop infinito da música
-        pygame.mixer.music.set_volume(0.25) # Ajusta o volume da música 
-
-        # Sprite Setup
+        # sprite setup
         self.create_map()
 
     def create_map(self):
@@ -46,9 +45,9 @@ class Level:
                     Y = Y * 3
                     Tile3((x, Y), [self.visible_sprites, self.obstacles_sprites])'''
                 if col == "p":
-                    self.player = Player((x, Y), [self.visible_sprites],self.obstacles_sprites,self.chave_sprite,self.destroy_key,self.bau_sprite)#,self.destroy_bau)
+                    self.player = Player((x, Y), [self.visible_sprites],self.obstacles_sprites,self.chave_sprite,self.destroy_key,self.bau_sprite,self.destroy_bau)
                 if col == "c":
-                    self.cavaleiro = Cavaleiro((x,Y),[self.visible_sprites], self.obstacles_sprites)
+                    self.cavaleiro = Cavaleiro((x,Y),[self.visible_sprites], self.obstacles_sprites, self.tiro_inimigo)
                 if col == "k":
                     self.chave = Chave((x,Y),[self.visible_sprites,self.chave_sprite])
                 if col == "b":
@@ -56,9 +55,23 @@ class Level:
                     self.bau_pos_x = x
                     self.bau_pos_y = Y
 
-    # def destroy_bau(self):
-    #    self.bau.kill()
-    #    Bau_aberto((self.bau_pos_x, self.bau_pos_y),[self.visible_sprites,self.bau_sprite])
+    def tiro_inimigo(self, x, y, player_x, player_y):
+        '''if self.bullet != 0:
+            self.atacou = self.bullet.__getattribute__('status')
+            if self.atacou == "attack":
+                #print('atacou')
+                check_atack(1,0)'''
+
+        '''b_list = []
+        b_list.append(EnemyBullets(x, y, player_x, player_y, [self.visible_sprites], self.obstacles_sprites))
+        if len(b_list) > 5:
+            b_list.pop(-1)'''
+        self.bullet = EnemyBullets(x, y, player_x, player_y, [self.visible_sprites], self.obstacles_sprites)
+
+
+    def destroy_bau(self):
+        self.bau.kill()
+        Bau_aberto((self.bau_pos_x, self.bau_pos_y),[self.visible_sprites,self.bau_sprite])
 
     def destroy_key(self):
         if self.chave:
@@ -70,7 +83,6 @@ class Level:
         self.visible_sprites.custom_draw(self.player)  # draw(self.display_surface)
         self.visible_sprites.update()
         self.visible_sprites.enemy_update(self.player)
-        
 
 
 class YSortCameraGroup(pygame.sprite.Group):

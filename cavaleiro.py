@@ -1,15 +1,17 @@
 import pygame
 from config import *
+import math
+from AtackCheck import check_atack
 
 
 class Cavaleiro(pygame.sprite.Sprite):
-    def __init__(self, pos, groups, obstacle_sprites):
+    def __init__(self, pos, groups, obstacle_sprites, enemy_bullets):
         super().__init__(groups)  # init so que da herança "pygame.sprite.Sprite"
         self.image = pygame.image.load("Assets/Enemies/knight_left.png").convert_alpha()
         self.image = pygame.transform.scale(self.image, (64, 64))
         self.sprite_type = "enemy"
         self.rect = self.image.get_rect(topleft=pos)
-        self.hitbox = self.rect.inflate(0, -15)
+        self.hitbox = self.rect.inflate(-30, -20)
 
         self.initial_pos = pos
 
@@ -17,8 +19,8 @@ class Cavaleiro(pygame.sprite.Sprite):
         self.animation_speed = 0.15
         self.lado = "esquerda"
 
-        self.notice_radius = 190
-        self.atack_radius = 120
+        self.notice_radius = 180
+        self.atack_radius = 90
 
         self.direction = pygame.math.Vector2()
         self.speed = 3
@@ -27,10 +29,13 @@ class Cavaleiro(pygame.sprite.Sprite):
         self.turn_after = 400
 
         self.obstacle_sprites = obstacle_sprites
+        self.enemy_bullets = enemy_bullets
+        self.groups = groups
 
         self.frame_index = 0
         self.status = 'idle'
         self.place_holder = 'idle'
+        self.x1 = 0
         #self.image = self.animations[self.status][self.frame_index]
 
     def Import_enemy_assets(self):
@@ -52,7 +57,7 @@ class Cavaleiro(pygame.sprite.Sprite):
             direction = pygame.math.Vector2()
 
         return(distance, direction)
-
+        
     def get_status(self, player):
         distance = self.get_player_distance_direction(player)[0]
 
@@ -62,14 +67,57 @@ class Cavaleiro(pygame.sprite.Sprite):
             self.status = 'move'
         else:
             self.status = 'idle'
+        
 
     def actions(self, player):
         if self.status == 'move':
+            self.speed = 3
             self.direction = pygame.math.Vector2()
+            enemy_x = self.hitbox.x
+            enemy_y = self.hitbox.y
+            player_x = player.rect.x
+            player_y = player.rect.y
+
+            if (self.lado == "esquerda" and player_x > enemy_x) or (self.lado == "direita" and player_x < enemy_x):
+                if self.orientacao == -1:
+                    self.lado = "esquerda"
+                else:
+                    self.lado = "direita"
+                if self.orientacao == 0:
+                    self.orientacao = -1
+
+                self.pace_count +=1
+                self.hitbox.x += self.orientacao
+
+                if self.pace_count >= self.turn_after:
+                    self.orientacao *= -1
+                    self.pace_count = 0
+            
+            enemy_x = self.hitbox.x
+            enemy_y = self.hitbox.y
+            player_x = player.rect.x
+            player_y = player.rect.y
+            if (self.lado == "esquerda" and player_x < enemy_x) or (self.lado == "direita" and player_x > enemy_x):
+                self.enemy_bullets(enemy_x, enemy_y, player_x, player_y)
+
+            stat_change = check_atack(0,1)
+            if stat_change == '1':
+                self.direction = self.get_player_distance_direction(player)[1]
+            
+            #self.direction = pygame.math.Vector2()
             #self.direction = self.get_player_distance_direction(player)[1]
+
         elif self.status == 'attack':
-            pass
+            self.speed = 1
+            self.direction = pygame.math.Vector2()
+            self.direction = self.get_player_distance_direction(player)[1]
+            self.speed = 3
         elif self.status == 'idle':
+            escrever = open('switch.txt', 'w')
+            escrever.write('0')
+            escrever.close()
+            self.speed = 3
+            self.direction = pygame.math.Vector2()
             if self.orientacao == -1:
                 self.lado = "esquerda"
             else:
@@ -141,3 +189,5 @@ class Cavaleiro(pygame.sprite.Sprite):
         self.get_status(player)
         self.actions(player)
         self.animate()
+
+

@@ -5,7 +5,7 @@ from os import kill
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, groups, obstacles_sprites, chave_sprite, destroy_key, bau_sprite):#destroy_bau):
+    def __init__(self, pos, groups, obstacles_sprites, chave_sprite, destroy_key, bau_sprite, destroy_bau):
         super().__init__(groups)  # init so que da herança "pygame.sprite.Sprite"
         self.image = pygame.image.load(
             "Assets/Main Character/Dief_frontal.png"
@@ -21,7 +21,7 @@ class Player(pygame.sprite.Sprite):
         self.orientacao = 0
 
         self.direction = pygame.math.Vector2()
-        self.speed = 5
+        self.speed = 4
 
         self.obstacle_sprites = obstacles_sprites
 
@@ -30,12 +30,8 @@ class Player(pygame.sprite.Sprite):
         self.tem_chave = False
 
         self.bau_sprite = bau_sprite
-        #self.destroy_bau = destroy_bau
-        self.has_chest_key = False
+        self.destroy_bau = destroy_bau
 
-    def has_opened_chest(self):
-        return self.has_chest_key
-    
     def Import_player_assets(self):
         character_path = "Assets/Main Character/"
         self.animations = {'up':[],
@@ -123,8 +119,7 @@ class Player(pygame.sprite.Sprite):
             for sprite in self.bau_sprite:
                 if sprite.hitbox.colliderect(self.hitbox):
                     if self.tem_chave:
-                        #self.destroy_bau()
-                        self.has_chest_key = True
+                        self.destroy_bau()
                         self.tem_chave = False
                     else:
                         if self.direction.y > 0: #movendo pra baixo
@@ -138,7 +133,7 @@ class Player(pygame.sprite.Sprite):
                         self.hitbox.bottom = sprite.hitbox.top
                     if self.direction.y < 0: #movendo pra cima
                         self.hitbox.top = sprite.hitbox.bottom
-    
+
     def animate(self):
         animation = self.animations[self.status]
 
