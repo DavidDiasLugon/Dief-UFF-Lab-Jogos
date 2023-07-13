@@ -36,7 +36,11 @@ class Cavaleiro(pygame.sprite.Sprite):
         self.status = 'idle'
         self.place_holder = 'idle'
         self.x1 = 0
+        self.has_collide_player = False
         #self.image = self.animations[self.status][self.frame_index]
+
+    def has_collided_player(self):
+        return self.has_collide_player
 
     def Import_enemy_assets(self):
         character_path = "Assets/Enemies/"
@@ -112,6 +116,10 @@ class Cavaleiro(pygame.sprite.Sprite):
             self.direction = pygame.math.Vector2()
             self.direction = self.get_player_distance_direction(player)[1]
             self.speed = 3
+            player_x = player.rect.x
+            player_y = player.rect.y
+            if self.rect.colliderect(player_x, player_y, 40, 30):
+                self.has_collide_player = True
         elif self.status == 'idle':
             escrever = open('switch.txt', 'w')
             escrever.write('0')
