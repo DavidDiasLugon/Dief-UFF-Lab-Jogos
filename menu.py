@@ -15,12 +15,14 @@ def menu_inic():
     botão_dificuldade = Sprite("Assets/Menu/opções.png", 1)
     botão_sair = Sprite("Assets/Menu/sair.png", 1)
 
+
     # Posiciona os botões 
     botão_jogar.set_position((janela.width/2)-(botão_jogar.width/2) + 250,(janela.height/2 )-(botão_jogar.height/2 + 60))
     botão_dificuldade.set_position((janela.width/2)-(botão_dificuldade.width/2) + 250,(janela.height/2 )-(botão_dificuldade.height/2))
     botão_sair.set_position((janela.width/2)-(botão_sair.width/2) + 250,(janela.height/2 )-(botão_sair.height/2 - 60))
         
     while True:
+        
         for event in pygame.event.get():
             pygame.mixer.init()
             pygame.mixer.music.load('Soundtrack/magical_theme.flac')
