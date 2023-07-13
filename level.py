@@ -45,7 +45,7 @@ class Level:
                     Y = Y * 3
                     Tile3((x, Y), [self.visible_sprites, self.obstacles_sprites])'''
                 if col == "p":
-                    self.player = Player((x, Y), [self.visible_sprites],self.obstacles_sprites,self.chave_sprite,self.destroy_key,self.bau_sprite,self.destroy_bau)
+                    self.player = Player((x, Y), [self.visible_sprites],self.obstacles_sprites,self.chave_sprite,self.destroy_key,self.bau_sprite) #self.destroy_bau)
                 if col == "c":
                     self.cavaleiro = Cavaleiro((x,Y),[self.visible_sprites], self.obstacles_sprites, self.tiro_inimigo)
                 if col == "k":
@@ -69,9 +69,9 @@ class Level:
         self.bullet = EnemyBullets(x, y, player_x, player_y, [self.visible_sprites], self.obstacles_sprites)
 
 
-    def destroy_bau(self):
-        self.bau.kill()
-        Bau_aberto((self.bau_pos_x, self.bau_pos_y),[self.visible_sprites,self.bau_sprite])
+    # def destroy_bau(self):
+    #    self.bau.kill()
+    #    Bau_aberto((self.bau_pos_x, self.bau_pos_y),[self.visible_sprites,self.bau_sprite])
 
     def destroy_key(self):
         if self.chave:
