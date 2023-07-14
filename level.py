@@ -12,7 +12,7 @@ from AtackCheck import check_atack
 
 
 class Level:
-    def __init__(self):
+    def __init__(self, map):
         # "superficie" a ser exibida
         self.display_surface = pygame.display.get_surface()
         # grupos de sprite
@@ -25,12 +25,19 @@ class Level:
         self.bau_pos = []
         self.bullet = 0
         self.atacou = 0
+        self.mapa = map
 
         # sprite setup
         self.create_map()
 
     def create_map(self):
-        for row_index, row in enumerate(WORLD_MAP):
+        if self.mapa == 0:
+            self.mapa = WORLD_MAP
+        elif self.mapa == 1:
+            self.mapa = WORLD_MAP2
+        elif self.mapa == 2:
+            self.mapa = WORLD_MAP3
+        for row_index, row in enumerate(self.mapa):
             for col_index, col in enumerate(row):
                 x = col_index * TILESIZE
                 Y = row_index * TILESIZE
