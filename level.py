@@ -56,12 +56,6 @@ class Level:
                     self.bau_pos_y = Y
 
     def tiro_inimigo(self, x, y, player_x, player_y):
-        '''if self.bullet != 0:
-            self.atacou = self.bullet.__getattribute__('status')
-            if self.atacou == "attack":
-                #print('atacou')
-                check_atack(1,0)'''
-
         '''b_list = []
         b_list.append(EnemyBullets(x, y, player_x, player_y, [self.visible_sprites], self.obstacles_sprites))
         if len(b_list) > 5:

@@ -17,36 +17,41 @@ class Game:
         self.clock = pygame.time.Clock()
         self.level = Level()
         self.menu = False
+        self.quit_game = False
 
     def run(self):
         return_to_menu = False
         cont = 0
         while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+            while True:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
+                color = (0, 0, 0)
+                self.screen.fill(color)
+                if self.level == 0:
+                    self.level = Level()
+                self.level.run()
+                pygame.display.update()
+                self.clock.tick(FPS)
+
+                if self.level.player.has_opened_chest():
+                    cont += 1
+                    if cont > 65:
+                        return_to_menu = True
+                        break
+                if self.level.cavaleiro.has_collided_player():
+                    return_to_menu = True
+                    self.level = 0
+                    break
+                
+                
+            if return_to_menu:
+                menu_result = menu_inic()
+                if not menu_result:
                     pygame.quit()
                     sys.exit()
-            color = (0, 0, 0)
-            self.screen.fill(color)
-            self.level.run()
-            pygame.display.update()
-            self.clock.tick(FPS)
-
-            if self.level.player.has_opened_chest():
-                cont += 1
-                if cont > 65:
-                    return_to_menu = True
-                    break
-            if self.level.cavaleiro.has_collided_player():
-                return_to_menu = True
-                break
-            
-            
-        if return_to_menu:
-            menu_result = menu_inic()
-            if not menu_result:
-                pygame.quit()
-                sys.exit()
 
 
 if __name__ == "__main__":
