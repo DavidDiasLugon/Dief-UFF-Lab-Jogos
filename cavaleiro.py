@@ -4,6 +4,10 @@ import math
 from AtackCheck import check_atack
 
 
+pygame.mixer.init()
+effect = pygame.mixer.Sound('Soundtrack/sword_slice.wav')
+
+
 class Cavaleiro(pygame.sprite.Sprite):
     def __init__(self, pos, groups, obstacle_sprites, enemy_bullets):
         super().__init__(groups)  # init so que da herança "pygame.sprite.Sprite"
@@ -200,6 +204,7 @@ class Cavaleiro(pygame.sprite.Sprite):
                 self.image = pygame.transform.flip(self.image,True,False)
             self.rect = self.image.get_rect(center = self.hitbox.center)
             if self.frame_index == 4.950000000000001:
+                effect.play()
                 self.has_collide_player = True
         else:
             animation = self.animations[self.place_holder]

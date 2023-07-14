@@ -2,7 +2,9 @@ import pygame
 from config import *
 from os import kill
 
-
+pygame.mixer.init()
+effect = pygame.mixer.Sound('Soundtrack/chest.wav')
+coin = pygame.mixer.Sound('Soundtrack/coin.wav')
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, groups, obstacles_sprites, chave_sprite, destroy_key, bau_sprite, destroy_bau):
@@ -94,12 +96,14 @@ class Player(pygame.sprite.Sprite):
         if direction == 'horizontal':
             for sprite in self.chave_sprite:
                 if sprite.hitbox.colliderect(self.hitbox):
+                    coin.play()
                     self.destroy_key()
                     self.tem_chave = True
 
             for sprite in self.bau_sprite:
                 if sprite.hitbox.colliderect(self.hitbox):
                     if self.tem_chave:
+                        effect.play()
                         self.destroy_bau()
                         self.has_chest_key = True
                         self.tem_chave = False
