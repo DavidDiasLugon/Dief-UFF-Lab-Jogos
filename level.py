@@ -47,7 +47,7 @@ class Level:
                 if col == "p":
                     self.player = Player((x, Y), [self.visible_sprites],self.obstacles_sprites,self.chave_sprite,self.destroy_key,self.bau_sprite, self.destroy_bau)
                 if col == "c":
-                    self.cavaleiro = Cavaleiro((x,Y),[self.visible_sprites], self.obstacles_sprites, self.tiro_inimigo)
+                    self.cavaleiro = Cavaleiro((x,Y),[self.visible_sprites], self.obstacles_sprites, self.tiro_inimigo, self.fim_de_jogo)
                 if col == "k":
                     self.chave = Chave((x,Y),[self.visible_sprites,self.chave_sprite])
                 if col == "b":
@@ -55,12 +55,15 @@ class Level:
                     self.bau_pos_x = x
                     self.bau_pos_y = Y
 
-    def tiro_inimigo(self, x, y, player_x, player_y):
+    def fim_de_jogo(self):
+        self.cavaleiro.has_collide_player = True
+
+    def tiro_inimigo(self, x, y, player_x, player_y, criararquivo):
         '''b_list = []
         b_list.append(EnemyBullets(x, y, player_x, player_y, [self.visible_sprites], self.obstacles_sprites))
         if len(b_list) > 5:
             b_list.pop(-1)'''
-        self.bullet = EnemyBullets(x, y, player_x, player_y, [self.visible_sprites], self.obstacles_sprites)
+        self.bullet = EnemyBullets(x, y, player_x, player_y, [self.visible_sprites], self.obstacles_sprites, criararquivo)
 
 
     def destroy_bau(self):
