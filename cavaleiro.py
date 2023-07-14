@@ -1,15 +1,16 @@
 import pygame
 from config import *
-import math
+from random import randint
 from AtackCheck import check_atack
+from AtackCheck import create_archive
 
 
 pygame.mixer.init()
 effect = pygame.mixer.Sound('Soundtrack/sword_slice.wav')
-
+effect.set_volume(0.5)
 
 class Cavaleiro(pygame.sprite.Sprite):
-    def __init__(self, pos, groups, obstacle_sprites, enemy_bullets):
+    def __init__(self, pos, groups, obstacle_sprites, enemy_bullets, fim_de_jogo):
         super().__init__(groups)  # init so que da herança "pygame.sprite.Sprite"
         self.image = pygame.image.load("Assets/Enemies/knight_left.png").convert_alpha()
         self.image = pygame.transform.scale(self.image, (64, 64))
@@ -18,6 +19,7 @@ class Cavaleiro(pygame.sprite.Sprite):
         self.hitbox = self.rect.inflate(-30, -20)
 
         self.initial_pos = pos
+        self.nome_arquivo = randint(1,1000)
 
         self.Import_enemy_assets()
         self.animation_speed = 0.15
@@ -34,6 +36,7 @@ class Cavaleiro(pygame.sprite.Sprite):
 
         self.obstacle_sprites = obstacle_sprites
         self.enemy_bullets = enemy_bullets
+        self.fim_de_jogo = fim_de_jogo
         self.groups = groups
 
         self.frame_index = 0
@@ -43,7 +46,12 @@ class Cavaleiro(pygame.sprite.Sprite):
         self.has_collide_player = False
         self.marcador = 0
         self.troca_animacao = 1
+        self.naoaguentomaisfazerswitch = 0
         #self.image = self.animations[self.status][self.frame_index]
+
+    def criar_arquivo(self):
+        create_archive(self.nome_arquivo)
+        self.naoaguentomaisfazerswitch = 1
 
     def has_collided_player(self):
         return self.has_collide_player
@@ -109,9 +117,9 @@ class Cavaleiro(pygame.sprite.Sprite):
             player_x = player.rect.x
             player_y = player.rect.y
             if (self.lado == "esquerda" and player_x < enemy_x) or (self.lado == "direita" and player_x > enemy_x):
-                self.enemy_bullets(enemy_x, enemy_y, player_x, player_y)
+                self.enemy_bullets(enemy_x, enemy_y, player_x, player_y, self.nome_arquivo)
 
-            stat_change = check_atack(0,1)
+            stat_change = check_atack(0,1, self.nome_arquivo)
             if stat_change == '1':
                 if enemy_x > player_x:
                     self.lado = "esquerda"
@@ -206,6 +214,8 @@ class Cavaleiro(pygame.sprite.Sprite):
             if self.frame_index == 4.950000000000001:
                 effect.play()
                 self.has_collide_player = True
+                self.fim_de_jogo()
+
         else:
             animation = self.animations[self.place_holder]
 
@@ -224,6 +234,10 @@ class Cavaleiro(pygame.sprite.Sprite):
 
 
     def enemy_update(self, player):
+        if self.naoaguentomaisfazerswitch == 0:
+            self.criar_arquivo()
+        else:
+            pass
         self.get_status(player)
         self.actions(player)
         self.animate(player)

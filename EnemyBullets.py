@@ -4,7 +4,7 @@ from AtackCheck import check_atack
 
 
 class EnemyBullets(pygame.sprite.Sprite):
-        def __init__(self, x, y, player_x, player_y, groups, obstacles_sprites):
+        def __init__(self, x, y, player_x, player_y, groups, obstacles_sprites, criararquivo):
             super().__init__(groups)
             self.x = x
             self.y = y
@@ -23,6 +23,7 @@ class EnemyBullets(pygame.sprite.Sprite):
             self.obstacle_sprites = obstacles_sprites
             self.contador = 10
             self.status = 0
+            self.nome_arquivo = criararquivo
         
         '''def __getattribute__(self, self.status):
             self.self.status'''
@@ -55,7 +56,7 @@ class EnemyBullets(pygame.sprite.Sprite):
             if self.rect.colliderect(self.player_x, self.player_y, 40, 30):
                 self.kill()
                 self.status = "attack"
-                check_atack(1,0)
+                check_atack(1,0, self.nome_arquivo)
                 return self.status
             else:
                 self.status = 'danone'

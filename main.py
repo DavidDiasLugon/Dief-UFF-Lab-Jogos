@@ -6,6 +6,7 @@ from cavaleiro import *
 from PPlay import *
 from random import randint
 from menu import menu_inic
+import os
  
 
 class Game:
@@ -40,10 +41,16 @@ class Game:
                     cont += 1
                     if cont > 65:
                         return_to_menu = True
+                        dir = 'txts/'
+                        for i in os.listdir(dir):
+                            os.remove(os.path.join(dir, i))
                         break
                 if self.level.cavaleiro.has_collided_player():
                     return_to_menu = True
                     self.level = 0
+                    dir = 'txts/'
+                    for i in os.listdir(dir):
+                        os.remove(os.path.join(dir, i))
                     break
                 
                 

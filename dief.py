@@ -5,6 +5,8 @@ from os import kill
 pygame.mixer.init()
 effect = pygame.mixer.Sound('Soundtrack/chest.wav')
 coin = pygame.mixer.Sound('Soundtrack/coin.wav')
+effect.set_volume(0.3)
+coin.set_volume(0.3)
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, groups, obstacles_sprites, chave_sprite, destroy_key, bau_sprite, destroy_bau):
